@@ -3,6 +3,8 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 
+const authRoutes = require("./routes/auth.routes");
+
 const app = express();
 
 app.use(helmet());
@@ -19,5 +21,8 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/api/health", (req, res) => {
   res.json({ status: "OK", message: "QTicket API is running" });
 });
+
+// auth routes
+app.use("/api/auth", authRoutes);
 
 module.exports = app;
