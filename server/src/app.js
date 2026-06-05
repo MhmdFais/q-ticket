@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");
 const ticketRoutes = require("./routes/ticket.routes");
+const dashboardRoutes = require("./routes/dashboard.routes");
 
 const app = express();
 
@@ -32,5 +33,8 @@ app.use("/api/users", userRoutes);
 
 // ticket routes
 app.use("/api/tickets", ticketRoutes);
+
+// dashboard routes
+app.use("/api/dashboard", dashboardRoutes);
 
 module.exports = app;
