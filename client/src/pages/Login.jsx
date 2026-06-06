@@ -9,11 +9,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, error } = useSelector((state) => state.auth);
-
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
+  const [form, setForm] = useState({ email: "", password: "" });
 
   useEffect(() => {
     dispatch(clearError());
@@ -32,55 +28,68 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="bg-white rounded-xl shadow-md w-full max-w-md p-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-blue-600">QTicket</h1>
-          <p className="text-gray-500 mt-2">Sign in to your account</p>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-sm">
+        {/* Logo */}
+        <div className="flex items-center justify-center gap-2 mb-8">
+          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+            <span className="text-white text-sm font-bold">Q</span>
+          </div>
+          <span className="text-xl font-semibold text-gray-800">QTicket</span>
         </div>
 
-        {/* Error */}
-        {error && (
-          <div className="bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg px-4 py-3 mb-6">
-            {error}
-          </div>
-        )}
+        {/* Card */}
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <h1 className="text-base font-semibold text-gray-800 mb-1">
+            Sign in
+          </h1>
+          <p className="text-xs text-gray-400 uppercase tracking-wider mb-6">
+            Enter your credentials to continue
+          </p>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-          <Input
-            label="Email"
-            type="email"
-            name="email"
-            placeholder="Enter your email"
-            value={form.email}
-            onChange={handleChange}
-            required
-          />
-          <Input
-            label="Password"
-            type="password"
-            name="password"
-            placeholder="Enter your password"
-            value={form.password}
-            onChange={handleChange}
-            required
-          />
-          <Button type="submit" loading={loading} className="w-full mt-2">
-            Sign In
-          </Button>
-        </form>
+          {error && (
+            <div className="bg-red-50 border border-red-100 text-red-500 text-xs rounded-lg px-3 py-2.5 mb-4">
+              {error}
+            </div>
+          )}
 
-        {/* Footer */}
-        <p className="text-center text-sm text-gray-500 mt-6">
-          Don't have an account?{" "}
-          <Link
-            to="/register"
-            className="text-blue-600 hover:underline font-medium"
-          >
-            Register
-          </Link>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <Input
+              label="Email"
+              type="email"
+              name="email"
+              placeholder="you@example.com"
+              value={form.email}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              label="Password"
+              type="password"
+              name="password"
+              placeholder="••••••••"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+            <Button type="submit" loading={loading} className="w-full mt-1">
+              Sign In
+            </Button>
+          </form>
+
+          <p className="text-center text-xs text-gray-400 mt-5">
+            Don't have an account?{" "}
+            <Link
+              to="/register"
+              className="text-indigo-600 hover:text-indigo-700 font-medium"
+            >
+              Register
+            </Link>
+          </p>
+        </div>
+
+        <p className="text-center text-xs text-gray-300 mt-4">
+          QTicket — Ticket Management System
         </p>
       </div>
     </div>
