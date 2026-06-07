@@ -37,9 +37,9 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-60 min-h-screen bg-white border-r border-gray-200 flex flex-col">
+    <div className="w-60 h-screen sticky top-0 bg-white border-r border-gray-200 flex flex-col">
       {/* Logo */}
-      <div className="px-6 py-5 border-b border-gray-100">
+      <div className="px-6 py-5 border-b border-gray-100 shrink-0">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 bg-indigo-600 rounded-lg flex items-center justify-center">
             <span className="text-white text-xs font-bold">Q</span>
@@ -49,7 +49,7 @@ const Sidebar = () => {
       </div>
 
       {/* User Info */}
-      <div className="px-4 py-4 border-b border-gray-100">
+      <div className="px-4 py-4 border-b border-gray-100 shrink-0">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 text-sm font-semibold">
             {user?.name?.charAt(0).toUpperCase()}
@@ -63,8 +63,8 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* Nav Links */}
-      <nav className="flex-1 px-3 py-4 flex flex-col gap-0.5">
+      {/* Nav Links - scrollable */}
+      <nav className="flex-1 px-3 py-4 flex flex-col gap-0.5 overflow-y-auto">
         <p className="text-xs font-medium uppercase tracking-widest text-gray-400 px-3 mb-2">
           Menu
         </p>
@@ -85,8 +85,8 @@ const Sidebar = () => {
         ))}
       </nav>
 
-      {/* Logout */}
-      <div className="px-3 py-4 border-t border-gray-100">
+      {/* Logout - always at bottom */}
+      <div className="px-3 py-4 border-t border-gray-100 shrink-0">
         <button
           onClick={handleLogout}
           className="w-full px-3 py-2 text-sm text-gray-500 hover:bg-red-50 hover:text-red-500 rounded-lg transition-colors duration-150 text-left"
