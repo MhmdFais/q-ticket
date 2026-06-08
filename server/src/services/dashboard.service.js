@@ -30,7 +30,9 @@ const getDashboardStats = async () => {
       .populate("assignedTo", "name email")
       .sort({ createdAt: -1 })
       .limit(5),
-    Ticket.countDocuments({ assignedTo: null, status: "Open" }),
+    Ticket.countDocuments({
+      $or: [{ assignedTo: null }, { assignedTo: { $exists: false } }],
+    }),
   ]);
 
   return {

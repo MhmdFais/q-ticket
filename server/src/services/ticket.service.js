@@ -36,6 +36,7 @@ const getAllTickets = async ({
   createdBy,
   role,
   userId,
+  unassigned,
 }) => {
   const query = {};
 
@@ -48,6 +49,7 @@ const getAllTickets = async ({
   if (category) query.category = category;
   if (assignedTo) query.assignedTo = assignedTo;
   if (createdBy) query.createdBy = createdBy;
+  if (unassigned === "true") query.assignedTo = null;
 
   if (search) {
     query.$or = [

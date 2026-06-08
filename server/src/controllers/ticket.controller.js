@@ -37,6 +37,7 @@ const getAll = async (req, res) => {
       search,
       assignedTo,
       createdBy,
+      unassigned,
     } = req.query;
     const result = await getAllTickets({
       page,
@@ -47,6 +48,7 @@ const getAll = async (req, res) => {
       search,
       assignedTo,
       createdBy,
+      unassigned,
       role: req.user.role,
       userId: req.user._id,
     });

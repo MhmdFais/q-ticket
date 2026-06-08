@@ -89,10 +89,6 @@ const EditTicket = () => {
     }
   }, [dispatch, id, user]);
 
-  useEffect(() => {
-    setForm(initialForm);
-  }, [initialForm]);
-
   const validate = () => {
     const newErrors = {};
     if (!form.title.trim()) newErrors.title = "Title is required";
@@ -125,7 +121,7 @@ const EditTicket = () => {
     if (!payload.assignedTo) delete payload.assignedTo;
     const result = await dispatch(updateTicketThunk({ id, data: payload }));
     if (updateTicketThunk.fulfilled.match(result)) {
-      navigate(`/tickets/${id}`);
+      navigate(`/tickets/${id}`, { replace: true });
     }
   };
 
@@ -142,7 +138,7 @@ const EditTicket = () => {
         {/* Header */}
         <div className="mb-8">
           <button
-            onClick={() => navigate(`/tickets/${id}`)}
+            onClick={() => navigate(-1)}
             className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 transition-colors mb-4"
           >
             <ArrowLeftIcon className="w-4 h-4" />

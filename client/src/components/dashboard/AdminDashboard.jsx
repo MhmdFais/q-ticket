@@ -63,7 +63,7 @@ const AdminDashboard = ({ stats, user }) => {
               <TicketCard
                 key={ticket._id}
                 ticket={ticket}
-                showCreatedBy={true}
+                showAssignedTo={true}
               />
             ))}
           </div>

@@ -40,6 +40,7 @@ const TicketList = () => {
     status: "",
     priority: "",
     category: "",
+    unassigned: "",
     page: 1,
     limit: 10,
   });
@@ -98,7 +99,9 @@ const TicketList = () => {
 
         {/* Filters */}
         <div className="bg-white rounded-xl border border-gray-200 p-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+          <div
+            className={`grid grid-cols-1 gap-3 ${user?.role === "admin" ? "md:grid-cols-5" : "md:grid-cols-4"}`}
+          >
             <input
               type="text"
               placeholder="Search tickets..."
@@ -145,6 +148,17 @@ const TicketList = () => {
                 </option>
               ))}
             </select>
+            {user?.role === "admin" && (
+              <select
+                name="unassigned"
+                value={filters.unassigned}
+                onChange={handleFilterChange}
+                className="px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50 text-gray-600"
+              >
+                <option value="">All Tickets</option>
+                <option value="true">Unassigned Only</option>
+              </select>
+            )}
           </div>
         </div>
 

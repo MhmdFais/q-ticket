@@ -1,6 +1,10 @@
 import { useNavigate } from "react-router-dom";
 
-const TicketCard = ({ ticket, showCreatedBy = false }) => {
+const TicketCard = ({
+  ticket,
+  showCreatedBy = false,
+  showAssignedTo = false,
+}) => {
   const navigate = useNavigate();
 
   return (
@@ -48,6 +52,13 @@ const TicketCard = ({ ticket, showCreatedBy = false }) => {
         {showCreatedBy && (
           <span className="text-xs text-gray-400">
             {ticket.createdBy?.name}
+          </span>
+        )}
+        {showAssignedTo && (
+          <span
+            className={`text-xs ${ticket.assignedTo ? "text-gray-400" : "text-red-400 font-medium"}`}
+          >
+            {ticket.assignedTo ? ticket.assignedTo.name : "Unassigned"}
           </span>
         )}
       </div>
