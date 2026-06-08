@@ -1,9 +1,15 @@
-const Input = ({ label, error, className = "", ...props }) => {
+const Input = ({
+  label,
+  error,
+  isRequired = false,
+  className = "",
+  ...props
+}) => {
   return (
     <div className="flex flex-col gap-1.5">
       {label && (
         <label className="text-xs font-medium uppercase tracking-wider text-gray-500">
-          {label}
+          {label} {isRequired && <span className="text-red-400">*</span>}
         </label>
       )}
       <input

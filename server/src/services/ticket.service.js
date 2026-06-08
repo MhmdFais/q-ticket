@@ -164,7 +164,14 @@ const updateTicketStatus = async (id, status, note, userId) => {
   });
 
   await ticket.save();
-  return ticket;
+
+  const updatedTicket = await Ticket.findById(id)
+    .populate("createdBy", "name email role")
+    .populate("assignedTo", "name email role")
+    .populate("comments.createdBy", "name email role")
+    .populate("statusHistory.changedBy", "name email role");
+
+  return updatedTicket;
 };
 
 const assignTicket = async (id, agentId) => {
@@ -186,7 +193,14 @@ const assignTicket = async (id, agentId) => {
   }
 
   await ticket.save();
-  return ticket;
+
+  const updatedTicket = await Ticket.findById(id)
+    .populate("createdBy", "name email role")
+    .populate("assignedTo", "name email role")
+    .populate("comments.createdBy", "name email role")
+    .populate("statusHistory.changedBy", "name email role");
+
+  return updatedTicket;
 };
 
 const addComment = async (id, message, userId, role) => {
@@ -207,8 +221,13 @@ const addComment = async (id, message, userId, role) => {
   ticket.comments.push({ message, createdBy: userId });
   await ticket.save();
 
-  await ticket.populate("comments.createdBy", "name email role");
-  return ticket;
+  const updatedTicket = await Ticket.findById(id)
+    .populate("createdBy", "name email role")
+    .populate("assignedTo", "name email role")
+    .populate("comments.createdBy", "name email role")
+    .populate("statusHistory.changedBy", "name email role");
+
+  return updatedTicket;
 };
 
 const deleteTicket = async (id, role, userId) => {

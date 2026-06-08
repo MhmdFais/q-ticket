@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
+import ConfirmModal from "../common/ConfirmModal";
 
 const adminLinks = [
   { label: "Dashboard", path: "/dashboard" },
@@ -30,6 +32,7 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const links = roleLinks[user?.role] || [];
+  const [showLogout, setShowLogout] = useState(false);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -63,7 +66,7 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* Nav Links - scrollable */}
+      {/* Nav Links */}
       <nav className="flex-1 px-3 py-4 flex flex-col gap-0.5 overflow-y-auto">
         <p className="text-xs font-medium uppercase tracking-widest text-gray-400 px-3 mb-2">
           Menu
@@ -85,15 +88,26 @@ const Sidebar = () => {
         ))}
       </nav>
 
-      {/* Logout - always at bottom */}
+      {/* Logout */}
       <div className="px-3 py-4 border-t border-gray-100 shrink-0">
         <button
-          onClick={handleLogout}
+          onClick={() => setShowLogout(true)}
           className="w-full px-3 py-2 text-sm text-gray-500 hover:bg-red-50 hover:text-red-500 rounded-lg transition-colors duration-150 text-left"
         >
           Logout
         </button>
       </div>
+
+      {/* Logout Confirm Modal */}
+      <ConfirmModal
+        isOpen={showLogout}
+        onClose={() => setShowLogout(false)}
+        onConfirm={handleLogout}
+        title="Logout"
+        message="Are you sure you want to logout?"
+        confirmLabel="Logout"
+        variant="danger"
+      />
     </div>
   );
 };
