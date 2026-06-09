@@ -8,6 +8,10 @@ export const registerThunk = createAsyncThunk(
       const response = await registerAPI(data);
       return response.data;
     } catch (error) {
+      const errors = error.response?.data?.errors;
+      if (errors && errors.length > 0) {
+        return rejectWithValue(errors[0].message);
+      }
       return rejectWithValue(
         error.response?.data?.message || "Registration failed",
       );

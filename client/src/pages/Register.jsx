@@ -79,7 +79,7 @@ const Register = () => {
               required
             />
             <Input
-              label="Password"
+              label="Password (Minimun 6 characters)"
               type="password"
               name="password"
               placeholder="••••••••"
