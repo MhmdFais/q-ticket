@@ -6,6 +6,7 @@ const createTicket = async ({
   category,
   priority,
   createdBy,
+  assignedTo,
 }) => {
   const ticket = await Ticket.create({
     title,
@@ -13,6 +14,7 @@ const createTicket = async ({
     category,
     priority,
     createdBy,
+    assignedTo: assignedTo || null,
     statusHistory: [
       {
         status: "Open",
@@ -141,7 +143,13 @@ const updateTicket = async (id, updates, role, userId) => {
     }
   }
 
-  const allowedUpdates = ["title", "description", "category", "priority"];
+  const allowedUpdates = [
+    "title",
+    "description",
+    "category",
+    "priority",
+    "assignedTo",
+  ];
   allowedUpdates.forEach((field) => {
     if (updates[field] !== undefined) ticket[field] = updates[field];
   });

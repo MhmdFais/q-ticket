@@ -12,12 +12,13 @@ const { sendSuccess, sendError } = require("../utils/apiResponse");
 
 const create = async (req, res) => {
   try {
-    const { title, description, category, priority } = req.body;
+    const { title, description, category, priority, assignedTo } = req.body;
     const ticket = await createTicket({
       title,
       description,
       category,
       priority,
+      assignedTo: assignedTo || null,
       createdBy: req.user._id,
     });
     return sendSuccess(res, 201, "Ticket created successfully", ticket);

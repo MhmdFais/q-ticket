@@ -30,6 +30,7 @@ const createTicketSchema = Joi.object({
     )
     .required(),
   priority: Joi.string().valid("Low", "Medium", "High", "Urgent").required(),
+  assignedTo: Joi.string().optional().allow("", null),
 });
 
 const updateTicketSchema = Joi.object({
@@ -44,6 +45,7 @@ const updateTicketSchema = Joi.object({
     "Other",
   ),
   priority: Joi.string().valid("Low", "Medium", "High", "Urgent"),
+  assignedTo: Joi.string().optional().allow("", null), // ← add this
 });
 
 const updateStatusSchema = Joi.object({

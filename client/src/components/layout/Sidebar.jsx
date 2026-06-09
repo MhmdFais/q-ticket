@@ -75,6 +75,7 @@ const Sidebar = () => {
           <NavLink
             key={link.path}
             to={link.path}
+            end={link.path === "/tickets"}
             className={({ isActive }) =>
               `px-3 py-2 rounded-lg text-sm transition-colors duration-150 ${
                 isActive

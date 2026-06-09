@@ -2,7 +2,10 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { getTicketByIdThunk } from "../features/tickets/ticketSlice";
+import {
+  getTicketByIdThunk,
+  clearCurrentTicket,
+} from "../features/tickets/ticketSlice";
 import { getAllUsersThunk } from "../features/users/userSlice";
 import Layout from "../components/layout/Layout";
 import Spinner from "../components/common/Spinner";
@@ -21,6 +24,10 @@ const TicketDetails = () => {
     if (user?.role === "admin") {
       dispatch(getAllUsersThunk({ role: "agent", limit: 100 }));
     }
+
+    return () => {
+      dispatch(clearCurrentTicket());
+    };
   }, [dispatch, id, user]);
 
   return (
@@ -28,7 +35,7 @@ const TicketDetails = () => {
       <div className="w-full">
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 transition-colors mb-6"
+          className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 transition-colors mb-6 cursor-pointer"
         >
           <ArrowLeftIcon className="w-4 h-4" />
           Back
