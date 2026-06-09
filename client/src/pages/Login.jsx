@@ -1,22 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginThunk, clearError } from "../features/auth/authSlice";
+import { loginThunk } from "../features/auth/authSlice";
 import Button from "../components/common/Button";
 import Input from "../components/common/Input";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loading } = useSelector((state) => state.auth);
   const [form, setForm] = useState({ email: "", password: "" });
-
-  useEffect(() => {
-    dispatch(clearError());
-  }, [dispatch]);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    if (error) setError("");
   };
 
   const handleSubmit = async (e) => {
@@ -24,13 +22,14 @@ const Login = () => {
     const result = await dispatch(loginThunk(form));
     if (loginThunk.fulfilled.match(result)) {
       navigate("/dashboard");
+    } else {
+      setError(result.payload || "Invalid credentials");
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
-        {/* Logo */}
         <div className="flex items-center justify-center gap-2 mb-8">
           <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
             <span className="text-white text-sm font-bold">Q</span>
@@ -38,7 +37,6 @@ const Login = () => {
           <span className="text-xl font-semibold text-gray-800">QTicket</span>
         </div>
 
-        {/* Card */}
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
           <h1 className="text-base font-semibold text-gray-800 mb-1">
             Sign in
