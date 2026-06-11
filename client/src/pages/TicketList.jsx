@@ -69,6 +69,7 @@ const TicketList = () => {
     await dispatch(deleteTicketThunk(deleteId));
     setDeleteLoading(false);
     setDeleteId(null);
+    dispatch(getAllTicketsThunk(filters));
   };
 
   const getPageTitle = () => {
@@ -289,7 +290,7 @@ const TicketList = () => {
                   <button
                     onClick={() => handlePageChange(pagination.page - 1)}
                     disabled={pagination.page === 1}
-                    className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
                     Previous
                   </button>
@@ -300,7 +301,7 @@ const TicketList = () => {
                     <button
                       key={page}
                       onClick={() => handlePageChange(page)}
-                      className={`px-3 py-1.5 text-xs border rounded-lg ${
+                      className={`px-3 py-1.5 text-xs border rounded-lg cursor-pointer ${
                         page === pagination.page
                           ? "bg-indigo-600 text-white border-indigo-600"
                           : "border-gray-200 text-gray-600 hover:bg-gray-50"
@@ -312,7 +313,7 @@ const TicketList = () => {
                   <button
                     onClick={() => handlePageChange(pagination.page + 1)}
                     disabled={pagination.page === pagination.totalPages}
-                    className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
                     Next
                   </button>
