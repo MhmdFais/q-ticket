@@ -43,27 +43,33 @@ A full-stack MERN application for managing support tickets with role-based acces
 - User management with role and status control
 - Responsive UI with clean minimal design
 
-## 📁 Project Structure
+## Project Structure
 
+```
 q-ticket/
-├── client/ # React frontend
-│ ├── src/
-│ │ ├── api/ # Axios API files
-│ │ ├── app/ # Redux store
-│ │ ├── components/ # Reusable components
-│ │ ├── features/ # Redux slices
-│ │ ├── pages/ # Page components
-│ │ ├── routes/ # Protected and role routes
-│ │ └── utils/ # Axios instance
-└── server/ # Node.js backend
-└── src/
-├── config/ # Database config
-├── controllers/ # Request handlers
-├── middleware/ # Auth, role, validation
-├── models/ # Mongoose models
-├── routes/ # API routes
-├── services/ # Business logic
-└── utils/ # API response helper
+├── client/                   # React frontend
+│   └── src/
+│       ├── api/              # Axios API files
+│       ├── app/              # Redux store
+│       ├── components/       # Reusable components
+│       │   ├── common/       # Shared UI components
+│       │   ├── dashboard/    # Dashboard components
+│       │   ├── layout/       # Sidebar, Navbar, Layout
+│       │   └── tickets/      # Ticket components
+│       ├── features/         # Redux slices
+│       ├── pages/            # Page components
+│       ├── routes/           # Protected and role routes
+│       └── utils/            # Axios instance
+└── server/                   # Node.js backend
+    └── src/
+        ├── config/           # Database config
+        ├── controllers/      # Request handlers
+        ├── middleware/        # Auth, role, validation
+        ├── models/           # Mongoose models
+        ├── routes/           # API routes
+        ├── services/         # Business logic
+        └── utils/            # API response helper
+```
 
 ## Local Setup
 
