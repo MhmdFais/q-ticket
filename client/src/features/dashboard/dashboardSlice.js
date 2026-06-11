@@ -1,6 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getDashboardStatsAPI } from "../../api/dashboard.api";
 
+const extractError = (error) =>
+  error.response?.data?.errors?.[0]?.message ||
+  error.response?.data?.message ||
+  error.message ||
+  "Something went wrong";
+
 export const getDashboardStatsThunk = createAsyncThunk(
   "dashboard/getStats",
   async (_, { rejectWithValue }) => {
@@ -8,9 +14,7 @@ export const getDashboardStatsThunk = createAsyncThunk(
       const response = await getDashboardStatsAPI();
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to fetch dashboard stats",
-      );
+      return rejectWithValue(extractError(error));
     }
   },
 );

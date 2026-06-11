@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const { errorHandler } = require("./middleware/error.middleware");
 
 const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");
@@ -47,5 +48,11 @@ app.use("/api/tickets", ticketRoutes);
 
 // dashboard routes
 app.use("/api/dashboard", dashboardRoutes);
+
+app.use((req, res) => {
+  res.status(404).json({ success: false, message: "Route not found" });
+});
+
+app.use(errorHandler);
 
 module.exports = app;

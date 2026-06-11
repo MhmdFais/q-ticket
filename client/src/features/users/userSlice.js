@@ -6,6 +6,12 @@ import {
   updateUserRoleAPI,
 } from "../../api/user.api";
 
+const extractError = (error) =>
+  error.response?.data?.errors?.[0]?.message ||
+  error.response?.data?.message ||
+  error.message ||
+  "Something went wrong";
+
 export const getAllUsersThunk = createAsyncThunk(
   "users/getAll",
   async (params, { rejectWithValue }) => {
@@ -13,9 +19,7 @@ export const getAllUsersThunk = createAsyncThunk(
       const response = await getAllUsersAPI(params);
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to fetch users",
-      );
+      return rejectWithValue(extractError(error));
     }
   },
 );
@@ -27,9 +31,7 @@ export const getUserByIdThunk = createAsyncThunk(
       const response = await getUserByIdAPI(id);
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to fetch user",
-      );
+      return rejectWithValue(extractError(error));
     }
   },
 );
@@ -41,9 +43,7 @@ export const updateUserStatusThunk = createAsyncThunk(
       const response = await updateUserStatusAPI(id, data);
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to update user status",
-      );
+      return rejectWithValue(extractError(error));
     }
   },
 );
@@ -55,9 +55,7 @@ export const updateUserRoleThunk = createAsyncThunk(
       const response = await updateUserRoleAPI(id, data);
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to update user role",
-      );
+      return rejectWithValue(extractError(error));
     }
   },
 );
@@ -111,19 +109,31 @@ const userSlice = createSlice({
       })
 
       // updateStatus
+      .addCase(updateUserStatusThunk.pending, (state) => {
+        state.error = null;
+      })
       .addCase(updateUserStatusThunk.fulfilled, (state, action) => {
         const index = state.users.findIndex(
           (u) => u._id === action.payload.data._id,
         );
         if (index !== -1) state.users[index] = action.payload.data;
       })
+      .addCase(updateUserStatusThunk.rejected, (state, action) => {
+        state.error = action.payload;
+      })
 
       // updateRole
+      .addCase(updateUserRoleThunk.pending, (state) => {
+        state.error = null;
+      })
       .addCase(updateUserRoleThunk.fulfilled, (state, action) => {
         const index = state.users.findIndex(
           (u) => u._id === action.payload.data._id,
         );
         if (index !== -1) state.users[index] = action.payload.data;
+      })
+      .addCase(updateUserRoleThunk.rejected, (state, action) => {
+        state.error = action.payload;
       });
   },
 });

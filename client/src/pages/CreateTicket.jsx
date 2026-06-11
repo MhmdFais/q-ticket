@@ -7,6 +7,7 @@ import { getAllUsersThunk } from "../features/users/userSlice";
 import Layout from "../components/layout/Layout";
 import Button from "../components/common/Button";
 import Input from "../components/common/Input";
+import ErrorMessage from "../components/common/ErrorMessage";
 
 const CATEGORIES = [
   "Bug",
@@ -120,7 +121,7 @@ const CreateTicket = () => {
         <div className="mb-8">
           <button
             onClick={() => navigate("/tickets")}
-            className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 transition-colors mb-4"
+            className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 transition-colors mb-4 cursor-pointer"
           >
             <ArrowLeftIcon className="w-4 h-4" />
             Back to Tickets
@@ -136,11 +137,7 @@ const CreateTicket = () => {
 
         {/* Form Card */}
         <div className="bg-white rounded-xl border border-gray-200 p-8">
-          {error && (
-            <div className="bg-red-50 border border-red-100 text-red-500 text-xs rounded-lg px-4 py-3 mb-6">
-              {error}
-            </div>
-          )}
+          <ErrorMessage message={error} />
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
             {/* Title */}

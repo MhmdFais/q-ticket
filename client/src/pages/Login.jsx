@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginThunk } from "../features/auth/authSlice";
 import Button from "../components/common/Button";
 import Input from "../components/common/Input";
+import ErrorMessage from "../components/common/ErrorMessage";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -45,11 +46,7 @@ const Login = () => {
             Enter your credentials to continue
           </p>
 
-          {error && (
-            <div className="bg-red-50 border border-red-100 text-red-500 text-xs rounded-lg px-3 py-2.5 mb-4">
-              {error}
-            </div>
-          )}
+          <ErrorMessage message={error} />
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <Input

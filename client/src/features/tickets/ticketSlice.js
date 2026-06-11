@@ -10,6 +10,12 @@ import {
   deleteTicketAPI,
 } from "../../api/ticket.api";
 
+const extractError = (error) =>
+  error.response?.data?.errors?.[0]?.message ||
+  error.response?.data?.message ||
+  error.message ||
+  "Something went wrong";
+
 export const createTicketThunk = createAsyncThunk(
   "tickets/create",
   async (data, { rejectWithValue }) => {
@@ -17,9 +23,7 @@ export const createTicketThunk = createAsyncThunk(
       const response = await createTicketAPI(data);
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to create ticket",
-      );
+      return rejectWithValue(extractError(error));
     }
   },
 );
@@ -31,9 +35,7 @@ export const getAllTicketsThunk = createAsyncThunk(
       const response = await getAllTicketsAPI(params);
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to fetch tickets",
-      );
+      return rejectWithValue(extractError(error));
     }
   },
 );
@@ -45,9 +47,7 @@ export const getTicketByIdThunk = createAsyncThunk(
       const response = await getTicketByIdAPI(id);
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to fetch ticket",
-      );
+      return rejectWithValue(extractError(error));
     }
   },
 );
@@ -59,9 +59,7 @@ export const updateTicketThunk = createAsyncThunk(
       const response = await updateTicketAPI(id, data);
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to update ticket",
-      );
+      return rejectWithValue(extractError(error));
     }
   },
 );
@@ -73,9 +71,7 @@ export const updateTicketStatusThunk = createAsyncThunk(
       const response = await updateTicketStatusAPI(id, data);
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to update status",
-      );
+      return rejectWithValue(extractError(error));
     }
   },
 );
@@ -87,9 +83,7 @@ export const assignTicketThunk = createAsyncThunk(
       const response = await assignTicketAPI(id, data);
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to assign ticket",
-      );
+      return rejectWithValue(extractError(error));
     }
   },
 );
@@ -101,9 +95,7 @@ export const addCommentThunk = createAsyncThunk(
       const response = await addCommentAPI(id, data);
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to add comment",
-      );
+      return rejectWithValue(extractError(error));
     }
   },
 );
@@ -115,9 +107,7 @@ export const deleteTicketThunk = createAsyncThunk(
       await deleteTicketAPI(id);
       return id;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to delete ticket",
-      );
+      return rejectWithValue(extractError(error));
     }
   },
 );
@@ -185,6 +175,9 @@ const ticketSlice = createSlice({
       })
 
       // update
+      .addCase(updateTicketThunk.pending, (state) => {
+        state.error = null;
+      })
       .addCase(updateTicketThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.currentTicket = action.payload.data;
@@ -193,8 +186,15 @@ const ticketSlice = createSlice({
         );
         if (index !== -1) state.tickets[index] = action.payload.data;
       })
+      .addCase(updateTicketThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
 
       // updateStatus
+      .addCase(updateTicketStatusThunk.pending, (state) => {
+        state.error = null;
+      })
       .addCase(updateTicketStatusThunk.fulfilled, (state, action) => {
         state.currentTicket = action.payload.data;
         const index = state.tickets.findIndex(
@@ -202,8 +202,14 @@ const ticketSlice = createSlice({
         );
         if (index !== -1) state.tickets[index] = action.payload.data;
       })
+      .addCase(updateTicketStatusThunk.rejected, (state, action) => {
+        state.error = action.payload;
+      })
 
       // assign
+      .addCase(assignTicketThunk.pending, (state) => {
+        state.error = null;
+      })
       .addCase(assignTicketThunk.fulfilled, (state, action) => {
         state.currentTicket = action.payload.data;
         const index = state.tickets.findIndex(
@@ -211,15 +217,30 @@ const ticketSlice = createSlice({
         );
         if (index !== -1) state.tickets[index] = action.payload.data;
       })
+      .addCase(assignTicketThunk.rejected, (state, action) => {
+        state.error = action.payload;
+      })
 
       // addComment
+      .addCase(addCommentThunk.pending, (state) => {
+        state.error = null;
+      })
       .addCase(addCommentThunk.fulfilled, (state, action) => {
         state.currentTicket = action.payload.data;
       })
+      .addCase(addCommentThunk.rejected, (state, action) => {
+        state.error = action.payload;
+      })
 
       // delete
+      .addCase(deleteTicketThunk.pending, (state) => {
+        state.error = null;
+      })
       .addCase(deleteTicketThunk.fulfilled, (state, action) => {
         state.tickets = state.tickets.filter((t) => t._id !== action.payload);
+      })
+      .addCase(deleteTicketThunk.rejected, (state, action) => {
+        state.error = action.payload;
       });
   },
 });
