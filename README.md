@@ -8,7 +8,6 @@ A full-stack MERN application for managing support tickets with role-based acces
 | ---------------- | ----------------------------------------------------- |
 | Frontend         | https://q-ticket.vercel.app                           |
 | Backend Base URL | https://q-ticket-production.up.railway.app            |
-| Backend API      | https://q-ticket-production.up.railway.app/api        |
 | Health Check     | https://q-ticket-production.up.railway.app/api/health |
 
 ## Test Credentials
